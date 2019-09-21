@@ -1,0 +1,10 @@
+# docker-compose.yml
+
+version: '3.7'
+
+services:
+   ejercicios:
+      image: python:3.7
+      volumes:
+        - ./Ejs:/Ejs
+      working_dir: /Ejs
