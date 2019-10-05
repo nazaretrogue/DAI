@@ -1,0 +1,13 @@
+div{
+    border: 1%;
+    padding: 1%;
+    margin: 2%;
+}
+
+h1, h2{
+	color: blue;
+}
+
+body{
+    background: pink;
+}

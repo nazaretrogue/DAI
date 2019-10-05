@@ -3,8 +3,17 @@
 version: '3.7'
 
 services:
-   ejercicios:
-      build: .
-      volumes:
-        - ./Ejs:/Ejs
-      working_dir: /Ejs
+    ejercicios:
+        build: .
+        volumes:
+            - ./Ejs:/Ejs
+        working_dir: /Ejs
+
+    flask:
+        build:
+            context: .
+        ports:
+            - "8080:5000"
+        volumes:
+            - ./flask:/flask
+        working_dir: /flask
