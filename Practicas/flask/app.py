@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask import request, abort
 from PIL import Image, ImageDraw
 import os, sys
+import random
 app = Flask(__name__)
 
 # Muestra una página estática con una hoja de estilo y una fotografía
@@ -97,3 +98,31 @@ def mandelbrot(c):
         n += 1
 
     return n
+
+@app.route('/svg')
+def random_svg():
+    figuras=['circle', 'rect']
+    colores=['red', 'green', 'blue', 'black', 'orange']
+
+    forma = random.choice(figuras)
+    color = random.choice(colores)
+    color_relleno = random.choice(colores)
+
+    fig='<'+forma
+
+    if forma=='circle':
+        cx = random.randint(50, 200)
+        cy = random.randint(50, 200)
+        r = random.randint(30, 80)
+        fig=fig+' cx="'+str(cx)+'" cy="'+str(cy)+'" r="'+str(r)+'"'
+
+    elif forma=='rect':
+        x = random.randint(10, 150)
+        y = random.randint(10, 150)
+        width = random.randint(50, 200)
+        height = random.randint(50, 200)
+        fig=fig+' x="'+str(x)+'" y="'+str(y)+'" width="'+str(width)+'" height="'+str(height)+'"'
+
+    fig=fig+' stroke="'+color+'" stroke-width="4" fill="'+color_relleno+'"/>'
+
+    return render_template('mostrar_svg.html', figura=fig)
