@@ -10,4 +10,6 @@ h1, h2{
 
 body{
     background: pink;
+	display: flex;
+	flex-direction: column;
 }
