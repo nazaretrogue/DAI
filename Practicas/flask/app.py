@@ -102,27 +102,27 @@ def mandelbrot(c):
 @app.route('/svg')
 def random_svg():
     figuras=['circle', 'rect']
-    colores=['red', 'green', 'blue', 'black', 'orange']
+    colores=['red', 'green', 'blue', 'black', 'orange', 'violet', 'purple', 'yellow', 'fuchsia', 'snow', 'darkRed', 'coral', 'mediumPurple', 'orangeRed', 'navy', 'saddleBrown', 'cyan']
 
     forma = random.choice(figuras)
     color = random.choice(colores)
     color_relleno = random.choice(colores)
 
-    fig='<'+forma
+    fig=forma
 
     if forma=='circle':
         cx = random.randint(50, 200)
         cy = random.randint(50, 200)
         r = random.randint(30, 80)
-        fig=fig+' cx="'+str(cx)+'" cy="'+str(cy)+'" r="'+str(r)+'"'
+        fig=fig+' cx='+str(cx)+' cy='+str(cy)+' r='+str(r)
 
     elif forma=='rect':
         x = random.randint(10, 150)
         y = random.randint(10, 150)
         width = random.randint(50, 200)
         height = random.randint(50, 200)
-        fig=fig+' x="'+str(x)+'" y="'+str(y)+'" width="'+str(width)+'" height="'+str(height)+'"'
+        fig=fig+' x='+str(x)+' y='+str(y)+' width='+str(width)+' height='+str(height)
 
-    fig=fig+' stroke="'+color+'" stroke-width="4" fill="'+color_relleno+'"/>'
+    fig=fig+' stroke='+color+' stroke-width=4 fill='+color_relleno
 
     return render_template('mostrar_svg.html', figura=fig)
