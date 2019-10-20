@@ -1,9 +1,16 @@
-from flask import Flask, render_template
-from flask import request, abort
+from flask import Flask, render_template, session, request, abort, redirect, url_for, escape
 from PIL import Image, ImageDraw
 import os, sys
 import random
 app = Flask(__name__)
+
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+################################################################################
+#
+# PRÁCTICA 1
+#
+################################################################################
 
 # Muestra una página estática con una hoja de estilo y una fotografía
 @app.route('/')
@@ -126,3 +133,61 @@ def random_svg():
     fig=fig+' stroke='+color+' stroke-width=4 fill='+color_relleno
 
     return render_template('mostrar_svg.html', figura=fig)
+
+################################################################################
+#
+# PRÁCTICA 2
+#
+################################################################################
+
+@app.route('/principal', methods=['GET', 'POST'])
+def pag_principal():
+    session['urls'] = []
+
+    if request.method == 'POST':
+        session['user'] = request.form['user']
+        return render_template('principal.html', login=session['user'])
+
+    elif request.method == 'GET' and 'user' in session:
+        return render_template('principal.html', login=session['user'])
+
+    return render_template('principal.html')
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('pag_principal'))
+
+@app.route('/principal/about')
+def pag_about():
+    if 'user' in session:
+        return render_template('about.html', login=session['user'])
+
+@app.route('/principal/rfa')
+def pag_rfa():
+    return render_template('rfa.html')
+
+@app.route('/principal/goal')
+def pag_goal():
+    return render_template('goal.html')
+
+@app.after_request
+def pags_visitadas(response):
+    session['urls'].append(request.url)
+
+    if len(session['urls']) > 3:
+        session['urls'].pop(0)
+
+    rank = '<ul>'
+
+    for url in session['urls']:
+        rank = rank + '\n\t<li>'+url+'</li>'
+
+    rank = rank + '\n</ul>'
+    aux(rank)
+
+    #return render_template('principal.html', rank=rank)
+    return response
+
+def aux(data):
+    return render_template('principal.html', rank=data)

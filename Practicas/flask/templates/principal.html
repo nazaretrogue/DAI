@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>Mint Eye</title>
         <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-        <link rel="stylesheet" href="../static/style.css">
+        <link rel="stylesheet" href="../static/stlsheet.css">
     </head>
     <body>
         <header>
@@ -13,19 +13,29 @@
                 <h1>Welcome to Mint Eye</h1>
                 <h3>For eternal paradise</h3>
             </div>
-            <a id="login" href="">Login</a>
+            <div class="formulario">
+                {% if login %}
+                    <h3>Welcome, {{ login }}</h3>
+                    <form action="logout" method="get">
+                        <input type="submit" value="Logout">
+                    </form>
+                {% else %}
+                    <form action="principal" method="post">
+                        <label>Your user <input type="text" name="user"></label>
+                        <label>Password <input type="password" name="pss"></label>
+                        <input type="submit" value="Login">
+                    </form>
+                {% endif %}
+            </div>
         </header>
         <div id="cuerpo">
             <main>
-                <h1>hola</h1>
+                {% block content %}
+                {% endblock %}
             </main>
             <aside>
                 <h4>Most recent pages</h4>
-                <ul>
-                    <li>Page 1</li>
-                    <li>Page 2</li>
-                    <li>Page 3</li>
-                </ul>
+                {{ rank }}
             </aside>
         </div>
         <footer>

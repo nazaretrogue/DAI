@@ -12,8 +12,8 @@ body {
 	background-color:#ECEBEB;
 	font-family: 'Open Sans', sans-serif;
 }
-p {
-	color:#A7A7A7;
+p, li{
+	color: dimGray;
 }
 a {
 	color:#85AD90;
@@ -21,17 +21,19 @@ a {
 
 /*-Header-*/
 header {
-	background-color: #E6F5EA; /*#99DEAB;*/
+	background-color: #E6F5EA;
 	border-bottom: 5px solid #85AD90;
 	padding: 2%;
-	font-size: 140%;
+	font-size: 120%;
 	display: flex;
 	flex-direction: row;
 }
 
-#login{
-	padding-top: 4%;
-	padding-left: 45%;
+.formulario{
+	display: flex;
+	flex-direction: column;
+	padding-left: 300px;
+	padding-top: 3%;
 }
 
 #cuerpo{
@@ -41,10 +43,16 @@ header {
 
 main{
 	width: 75%;
-	background-color: #E6F5EA; /*#99DEAB;*/
+	background-color: #E6F5EA;
 	border-left: 5px solid #85AD90;
 	border-bottom: 5px solid #85AD90;
 	padding: 2%;
+}
+
+.imagen{
+	display: block;
+	margin-left: auto;
+ 	margin-right: auto;
 }
 
 aside{
