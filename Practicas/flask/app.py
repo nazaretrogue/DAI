@@ -1,7 +1,8 @@
 from flask import Flask, render_template, session, request, abort, redirect, url_for, escape
 from PIL import Image, ImageDraw
-import os, sys
-import random
+import os, sys, random
+from pickleshare import *
+import re
 app = Flask(__name__)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -142,52 +143,95 @@ def random_svg():
 
 @app.route('/principal', methods=['GET', 'POST'])
 def pag_principal():
-    session['urls'] = []
+    if not 'url' in session:
+        session['urls'] = []
+
+    rank = pags_visitadas()
 
     if request.method == 'POST':
         session['user'] = request.form['user']
-        return render_template('principal.html', login=session['user'])
+        db = PickleShareDB('userdb')
+        cad = ""
+
+        for key in db.keys():
+            if session['user'] == key and request.form['pss'] == db[session['user']].get('pss'):
+                return render_template('principal.html', login=session['user'], rank=rank)
+
+            else:
+                cad = "Try again"
+                return render_template('principal.html', error_login=cad, rank=rank)
 
     elif request.method == 'GET' and 'user' in session:
-        return render_template('principal.html', login=session['user'])
+        return render_template('principal.html', login=session['user'], rank=rank)
 
-    return render_template('principal.html')
+    return render_template('principal.html', rank=rank)
 
 @app.route('/logout', methods=['GET'])
 def logout():
-    session.pop('user', None)
+    if 'user' in session:
+        session.pop('user', None)
+
     return redirect(url_for('pag_principal'))
 
 @app.route('/principal/about')
 def pag_about():
     if 'user' in session:
-        return render_template('about.html', login=session['user'])
+        rank = pags_visitadas()
+        return render_template('about.html', login=session['user'], rank=rank)
 
 @app.route('/principal/rfa')
 def pag_rfa():
-    return render_template('rfa.html')
+    if 'user' in session:
+        rank = pags_visitadas()
+        return render_template('rfa.html', rank=rank)
 
 @app.route('/principal/goal')
 def pag_goal():
-    return render_template('goal.html')
+    if 'user' in session:
+        rank = pags_visitadas()
+        return render_template('goal.html', rank=rank)
 
-@app.after_request
-def pags_visitadas(response):
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
+    if 'user' in session:
+        rank = pags_visitadas()
+        return render_template('registro.html', rank=rank)
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    rank = pags_visitadas()
+    db = PickleShareDB('userdb')
+    session['user'] = request.form['new_user']
+    db[session['user']] = {'pss': request.form['new_pss']}
+    return render_template('principal.html', login=session['user'], rank=rank)
+
+@app.route('/modify', methods=['GET', 'POST'])
+def modify():
+    rank = pags_visitadas()
+
+    if 'user' in session and not 'mod_pss' in request.form:
+        return render_template('visualizar_modificar.html', login=session['user'], rank=rank)
+
+    elif 'user' in session and 'mod_pss' in request.form:
+        db = PickleShareDB('userdb')
+        db[session['user']] = {'pss': request.form['mod_pss']}
+        user_mod = session['user']+". Password updated"
+        return render_template('principal.html', login=user_mod, rank=rank)
+
+    else:
+        return render_template('principal.html', rank=rank)
+
+def pags_visitadas():
     session['urls'].append(request.url)
 
     if len(session['urls']) > 3:
         session['urls'].pop(0)
 
-    rank = '<ul>'
+    rank = []
 
     for url in session['urls']:
-        rank = rank + '\n\t<li>'+url+'</li>'
+        #pagina = re.search('\d\/\w+(\/*)\w*', url)
+        url_real = url[22:]
+        rank.append(url_real)
 
-    rank = rank + '\n</ul>'
-    aux(rank)
-
-    #return render_template('principal.html', rank=rank)
-    return response
-
-def aux(data):
-    return render_template('principal.html', rank=data)
+    return rank

@@ -19,11 +19,21 @@
                     <form action="logout" method="get">
                         <input type="submit" value="Logout">
                     </form>
+                {% elif error_login %}
+                    <h3>The user doesn't exist. {{error_login}}</h3>
+                    <form action="principal" method="post">
+                        <label>Your user <input type="text" name="user"></label>
+                        <label>Password <input type="password" name="pss"></label>
+                        <input type="submit" value="Login">
+                    </form>
                 {% else %}
                     <form action="principal" method="post">
                         <label>Your user <input type="text" name="user"></label>
                         <label>Password <input type="password" name="pss"></label>
                         <input type="submit" value="Login">
+                    </form>
+                    <form action="registro" method="post">
+                        <input type="submit" value="Sign up here">
                     </form>
                 {% endif %}
             </div>
@@ -35,7 +45,11 @@
             </main>
             <aside>
                 <h4>Most recent pages</h4>
-                {{ rank }}
+                    <ul>
+                       {% for url in rank %}
+                       <li><a href={{url}}>{{url}}</a></li>
+                       {% endfor %}
+                    </ul>
             </aside>
         </div>
         <footer>
