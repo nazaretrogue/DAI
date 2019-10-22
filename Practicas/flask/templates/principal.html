@@ -47,7 +47,7 @@
                 <h4>Most recent pages</h4>
                     <ul>
                        {% for url in rank %}
-                       <li><a href={{url}}>{{url}}</a></li>
+                       <li><a href={{url}}>{{url[1:].upper()}}</a></li>
                        {% endfor %}
                     </ul>
             </aside>

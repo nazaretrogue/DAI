@@ -141,9 +141,11 @@ def random_svg():
 #
 ################################################################################
 
+rank = set()
+
 @app.route('/principal', methods=['GET', 'POST'])
 def pag_principal():
-    if not 'url' in session:
+    if not 'urls' in session:
         session['urls'] = []
 
     rank = pags_visitadas()
@@ -170,32 +172,40 @@ def pag_principal():
 def logout():
     if 'user' in session:
         session.pop('user', None)
+        session.pop('urls', None)
 
     return redirect(url_for('pag_principal'))
 
-@app.route('/principal/about')
+@app.route('/about')
 def pag_about():
     if 'user' in session:
         rank = pags_visitadas()
         return render_template('about.html', login=session['user'], rank=rank)
 
-@app.route('/principal/rfa')
+    else:
+        return render_template('about.html')
+
+@app.route('/rfa')
 def pag_rfa():
     if 'user' in session:
         rank = pags_visitadas()
         return render_template('rfa.html', rank=rank)
 
-@app.route('/principal/goal')
+    else:
+        return render_template('rfa.html')
+
+@app.route('/goal')
 def pag_goal():
     if 'user' in session:
         rank = pags_visitadas()
         return render_template('goal.html', rank=rank)
 
+    else:
+        return render_template('goal.html')
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
-    if 'user' in session:
-        rank = pags_visitadas()
-        return render_template('registro.html', rank=rank)
+    return render_template('registro.html')
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -222,16 +232,14 @@ def modify():
         return render_template('principal.html', rank=rank)
 
 def pags_visitadas():
-    session['urls'].append(request.url)
+    if 'user' in session:
+        session['urls'].append(request.url)
 
-    if len(session['urls']) > 3:
-        session['urls'].pop(0)
+        if len(rank) > 3:
+            rank.remove(rank)
 
-    rank = []
-
-    for url in session['urls']:
-        #pagina = re.search('\d\/\w+(\/*)\w*', url)
-        url_real = url[22:]
-        rank.append(url_real)
+        for url in session['urls']:
+            pagina = re.findall(r'\/{1}\w+', url)
+            rank.add(pagina[len(pagina)-1])
 
     return rank
