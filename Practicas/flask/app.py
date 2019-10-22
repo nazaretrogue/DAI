@@ -174,7 +174,8 @@ def logout():
         session.pop('user', None)
         session.pop('urls', None)
 
-    return redirect(url_for('pag_principal'))
+
+    return render_template('principal.html', rank=[])
 
 @app.route('/about')
 def pag_about():
@@ -189,7 +190,7 @@ def pag_about():
 def pag_rfa():
     if 'user' in session:
         rank = pags_visitadas()
-        return render_template('rfa.html', rank=rank)
+        return render_template('rfa.html', login=session['user'], rank=rank)
 
     else:
         return render_template('rfa.html')
@@ -198,7 +199,7 @@ def pag_rfa():
 def pag_goal():
     if 'user' in session:
         rank = pags_visitadas()
-        return render_template('goal.html', rank=rank)
+        return render_template('goal.html', login=session['user'], rank=rank)
 
     else:
         return render_template('goal.html')
