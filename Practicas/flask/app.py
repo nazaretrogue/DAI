@@ -141,7 +141,7 @@ def random_svg():
 #
 ################################################################################
 
-rank = set()
+rank = []
 
 @app.route('/principal', methods=['GET', 'POST'])
 def pag_principal():
@@ -235,11 +235,12 @@ def pags_visitadas():
     if 'user' in session:
         session['urls'].append(request.url)
 
-        if len(rank) > 3:
-            rank.remove(rank)
+        if len(rank) >= 3:
+            del rank[0]
 
         for url in session['urls']:
             pagina = re.findall(r'\/{1}\w+', url)
-            rank.add(pagina[len(pagina)-1])
+            if not pagina[len(pagina)-1] in rank:
+                rank.append(pagina[len(pagina)-1])
 
     return rank
