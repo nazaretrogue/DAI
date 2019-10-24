@@ -151,12 +151,13 @@ def pag_principal():
     rank = pags_visitadas()
 
     if request.method == 'POST':
-        session['user'] = request.form['user']
+        usuario = request.form['user']
         db = PickleShareDB('userdb')
         cad = ""
 
-        for key in db.keys():
-            if session['user'] == key and request.form['pss'] == db[session['user']].get('pss'):
+        if usuario in db.keys():
+            if request.form['pss'] == db[usuario].get('pss'):
+                session['user'] = usuario
                 return render_template('principal.html', login=session['user'], rank=rank)
 
             else:
