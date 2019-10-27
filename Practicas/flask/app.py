@@ -1,15 +1,17 @@
 from flask import Flask, render_template, session, request, abort, redirect, url_for, escape
 from PIL import Image, ImageDraw
-import os, sys, random
+import os, sys, random, re
 from pickleshare import *
-import re
+from pymongo import MongoClient
 app = Flask(__name__)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+cliente = MongoClient("mongo", 27017)
+base_datos = cliente.SampleCollections
 
 ################################################################################
 #
-# PRÁCTICA 1
+# PRÁCTICA 2
 #
 ################################################################################
 
@@ -137,7 +139,7 @@ def random_svg():
 
 ################################################################################
 #
-# PRÁCTICA 2
+# PRÁCTICA 3
 #
 ################################################################################
 
@@ -246,3 +248,18 @@ def pags_visitadas():
                 rank.append(pagina[len(pagina)-1])
 
     return rank
+
+################################################################################
+#
+# PRÁCTICA 4
+#
+################################################################################
+
+@app.route('/mongo')
+def mongo():
+    tabla = base_datos.samples_pokemon.find()
+    fila_len = len(tabla[0])
+
+    #tabla[0]['name']
+
+    return render_template('mongo.html', tabla=tabla, fila_len=fila_len)

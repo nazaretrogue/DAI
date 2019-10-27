@@ -3,9 +3,8 @@
     <head>
         <meta charset="utf-8">
         <title>Mint Eye</title>
-        <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-        <link rel="stylesheet" href="../static/stlsheet.css">
-    </head>
+        <link rel="stylesheet" href="../static/styl_sheet.css">
+        </head>
     <body>
         <header>
             <img src="../static/images/Minteye.svg" alt="Logo" width="400" height="200">
@@ -17,26 +16,26 @@
                 {% if login %}
                     <h3>Welcome, {{ login }}</h3>
                     <form action="logout" method="get">
-                        <input type="submit" value="Logout">
+                        <input type="submit" class="btn-signup" value="Logout">
                     </form>
                 {% elif error_login %}
                     <h3>The user doesn't exist. {{error_login}}</h3>
-                    <form action="principal" method="post">
+                    <form action="principal" class="sign-up-form"  method="post">
                         <label>Your user <input type="text" name="user"></label>
                         <label>Password <input type="password" name="pss"></label>
-                        <input type="submit" value="Login">
+                        <input type="submit" class="btn-signup" value="Login">
                     </form>
                     <form action="registro" method="post">
-                        <input type="submit" value="Sign up here">
+                        <input type="submit" class="btn-signup" value="Sign up here">
                     </form>
                 {% else %}
-                    <form action="principal" method="post">
+                    <form action="principal" class="sign-up-form" method="post">
                         <label>Your user <input type="text" name="user"></label>
                         <label>Password <input type="password" name="pss"></label>
-                        <input type="submit" value="Login">
+                        <input type="submit" class="btn-signup" value="Login">
                     </form>
                     <form action="registro" method="post">
-                        <input type="submit" value="Sign up here">
+                        <input type="submit" class="btn-signup" value="Sign up here">
                     </form>
                 {% endif %}
             </div>

@@ -1,0 +1,24 @@
+{% extends "principal.html" %}
+
+{% block content %}
+<form action="add_pkm" method="get"><input type="submit" class="btn-signup" value="Add Pokemon"></form>
+<form action="search" method="get"><input type="submit" class="btn-signup" value="Search"></form>
+<table>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Weaknesses</th>
+    </tr>
+    {% for fila in tabla %}
+    <tr>
+        <td><img src="{{ fila['img'] }}" width="100" height="100"></td>
+        <td>{{ fila['name'] }}</td>
+        <td>{{ fila['type'] }}</td>
+        <td>{{ fila['weaknesses'] }}</td>
+        <td><input type="submit" class="btn-signup" value="Modify"></td>
+        <td><input type="submit" class="btn-signup" value="Delete"></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -10,10 +10,18 @@ services:
         working_dir: /Ejs
 
     flask:
-        build:
-            context: .
+        build: .
+        depends_on:
+            - mongo
         ports:
             - "8080:5000"
         volumes:
             - ./flask:/flask
-        working_dir: /flask
+
+    mongo:
+        image: mongo:latest
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./dump:/dump
+            - ./datos_db:/datos/db
