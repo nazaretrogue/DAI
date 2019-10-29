@@ -5,6 +5,7 @@ from pickleshare import *
 from pymongo import MongoClient
 app = Flask(__name__)
 
+rank = []
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 cliente = MongoClient("mongo", 27017)
 base_datos = cliente.SampleCollections
@@ -144,8 +145,6 @@ def random_svg():
 #
 ################################################################################
 
-rank = []
-
 @app.route('/principal', methods=['GET', 'POST'])
 def pag_principal():
     if not 'urls' in session:
@@ -246,7 +245,7 @@ def pags_visitadas():
         for url in session['urls']:
             pagina = re.findall(r'\/{1}\w+', url)
             if not pagina[len(pagina)-1] in rank:
-                rank.append(pagina[len(paginadda)-1])
+                rank.append(pagina[len(pagina)-1])
 
     return rank
 
@@ -260,25 +259,51 @@ def pags_visitadas():
 def mongo():
     tabla = base_datos.samples_pokemon.find()
 
-    #tabla[0]['name']
-    if request.method == 'POST':
-        add_to_db()
+    if 'user' in session:
+        rank = pags_visitadas()
 
-    return render_template('mongo.html', tabla=tabla)
+    else:
+        rank = []
+
+    if request.method == 'POST':
+        if 'search' in request.form:
+            busqueda = request.form['busqueda']
+            busqueda_mayuscula = busqueda.capitalize()
+            if busqueda is not None:
+                tabla_busqueda = base_datos.samples_pokemon.find({"name": busqueda_mayuscula})
+
+                if tabla_busqueda is not None:
+                    return render_template('mongo.html', tabla=tabla_busqueda, rank=rank)
+
+                else:
+                    return render_template('mongo.html', no_exists="The pokemon doesn't exist", rank=rank)
+
+        if 'adding' in request.form:
+            add_to_db()
+
+        else:
+            update_db()
+
+    return render_template('mongo.html', tabla=tabla, rank=rank)
+
+@app.route('/search')
+def search():
+    return render_template('search.html')
 
 @app.route('/add_pkm')
 def add_pkm():
     return render_template('add_pkm.html')
 
-@app.route('/modify_pkm')
+@app.route('/modify_pkm', methods=['POST'])
 def modify_pkm():
     identify = request.form['name_pk']
 
     if identify is not None:
         pokemon = base_datos.samples_pokemon.find_one({"name": identify})
+        return render_template('modify_pkm.html', pokemon=pokemon)
 
-        
-
+    else:
+        return redirect(url_for('mongo'))
 
 @app.route('/delete_pkm', methods=['GET', 'POST'])
 def delete_pkm():
@@ -299,5 +324,19 @@ def add_to_db():
     if number is not None and name is not None and image is not None and type is not None and weak is not None:
         nuevo = {"num": number, "name": name, "img": image, "type": type, "weaknesses": weak}
         base_datos.samples_pokemon.insert_one(nuevo)
+
+    return render_template('mongo.html')
+
+def update_db():
+    number = request.form['no_up_pk']
+    name = request.form['name_up_pk']
+    image = request.form['img_up_pk']
+    type = request.form['type_up_pk']
+    weak = request.form['wkns_up_pk']
+
+    if number is not None and name is not None and image is not None and type is not None and weak is not None:
+        old_values = base_datos.samples_pokemon.find_one({"name": request.form['updating']})
+        update = {"$set": {"num": number, "name": name, "img": image, "type": type, "weaknesses": weak}}
+        base_datos.samples_pokemon.update_one(old_values, update)
 
     return render_template('mongo.html')

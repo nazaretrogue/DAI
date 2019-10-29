@@ -3,31 +3,34 @@
 {% block content %}
 <form action="add_pkm" class="pkmn" method="get"><input type="submit" class="btn-signup" value="Add Pokemon"></form>
 <form action="search" class="pkmn" method="get"><input type="submit" class="btn-signup" value="Search"></form>
-<table>
-    <tr>
-        <th>Pokemon image</th>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Weaknesses</th>
-        <th>Modify button</th>
-        <th>Delete button</th>
-    </tr>
-    {% for fila in tabla %}
-    <tr>
-        <td><img src="{{ fila['img'] }}" width="100" height="100"></td>
-        <td>{{ fila['name'] }}</td>
-        <td>{{ fila['type'] }}</td>
-        <td>{{ fila['weaknesses'] }}</td>
-
-        <td><from action="modify_pkm" method="post">
-            <input type="hidden" name="name_pk" value="{{ fila['name'] }}">
-            <input type="submit" class="btn-table" value="Modify"></form>
-        </td>
-        <td><form action="delete_pkm" method="post">
-            <input type="hidden" name="name_pk" value="{{ fila['name'] }}">
-            <input type="submit" class="btn-table" value="Delete"></form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+    {% if no_exists %}
+        <h2>{{ no_exists }}</h2>
+    {% else %}
+        <table>
+            <tr>
+                <th>Pokemon image</th>
+                <th>Pokemon name</th>
+                <th>Pokemon type</th>
+                <th>Weaknesses</th>
+                <th>Modify button</th>
+                <th>Delete button</th>
+            </tr>
+            {% for fila in tabla %}
+            <tr>
+                <td><img src="{{ fila['img'] }}" width="100" height="100"></td>
+                <td>{{ fila['name'] }}</td>
+                <td>{{ fila['type'] }}</td>
+                <td>{{ fila['weaknesses'] }}</td>
+                <td><form action="modify_pkm" method="post">
+                    <input type="hidden" name="name_pk" value="{{ fila['name'] }}">
+                    <input type="submit" class="btn-table" value="Modify"></form>
+                </td>
+                <td><form action="delete_pkm" method="post">
+                    <input type="hidden" name="name_pk" value="{{ fila['name'] }}">
+                    <input type="submit" class="btn-table" value="Delete"></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 {% endblock %}
