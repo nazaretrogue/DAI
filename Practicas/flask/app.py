@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 cliente = MongoClient("mongo", 27017)
 base_datos = cliente.SampleCollections
+tabla_pkm = cliente.database
 
 ################################################################################
 #
@@ -245,7 +246,7 @@ def pags_visitadas():
         for url in session['urls']:
             pagina = re.findall(r'\/{1}\w+', url)
             if not pagina[len(pagina)-1] in rank:
-                rank.append(pagina[len(pagina)-1])
+                rank.append(pagina[len(paginadda)-1])
 
     return rank
 
@@ -255,11 +256,48 @@ def pags_visitadas():
 #
 ################################################################################
 
-@app.route('/mongo')
+@app.route('/mongo', methods=['GET', 'POST'])
 def mongo():
     tabla = base_datos.samples_pokemon.find()
-    fila_len = len(tabla[0])
 
     #tabla[0]['name']
+    if request.method == 'POST':
+        add_to_db()
 
-    return render_template('mongo.html', tabla=tabla, fila_len=fila_len)
+    return render_template('mongo.html', tabla=tabla)
+
+@app.route('/add_pkm')
+def add_pkm():
+    return render_template('add_pkm.html')
+
+@app.route('/modify_pkm')
+def modify_pkm():
+    identify = request.form['name_pk']
+
+    if identify is not None:
+        pokemon = base_datos.samples_pokemon.find_one({"name": identify})
+
+        
+
+
+@app.route('/delete_pkm', methods=['GET', 'POST'])
+def delete_pkm():
+    identify = request.form['name_pk']
+
+    if identify is not None:
+        base_datos.samples_pokemon.delete_one({"name": identify})
+
+    return redirect(url_for('mongo'))
+
+def add_to_db():
+    number = request.form['no_pk']
+    name = request.form['name_pk']
+    image = request.form['img_pk']
+    type = request.form['type_pk']
+    weak = request.form['wkns_pk']
+
+    if number is not None and name is not None and image is not None and type is not None and weak is not None:
+        nuevo = {"num": number, "name": name, "img": image, "type": type, "weaknesses": weak}
+        base_datos.samples_pokemon.insert_one(nuevo)
+
+    return render_template('mongo.html')

@@ -63,6 +63,27 @@ footer{
 	text-align: center;
 }
 
+table, th, td {
+  border: 1px solid #85AD90;
+  text-align: center;
+  padding: 1%;
+}
+
+btn-table{
+	margin-right: 2%;
+}
+
+.pkmn{
+	display: block;
+	margin: 2%;
+}
+
+.form_pkm label{
+	display: flex;
+	flex-direction:column;
+	align: center;
+}
+
 .goal-summary {
 	padding: 0px 40px;
 }
@@ -350,7 +371,11 @@ footer{
 @media (max-width: 767px) {
 	.signup-input {
 		width: 75%;
-		max-width: 100%%;
+		max-width: 100%;
+	}
+
+	table{
+		max-width: 50%;
 	}
 }
 @media (max-width: 480px) {
