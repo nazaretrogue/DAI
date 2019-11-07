@@ -24,4 +24,4 @@ services:
             - "27017:27017"
         volumes:
             - ./dump:/dump
-            - ./datos_db:/datos/db
+            - ./datos_db:/data/db
