@@ -1,0 +1,15 @@
+
+version: '3.7'
+
+services:
+   web:
+      build: web
+      ports:
+         - 8000:8000
+      command: python manage.py runserver 0.0.0.0:8000 # servidor de desarrollo
+      volumes:
+         - ./web:/web
+
+
+
+# para la BD usamos sqlite, por defecto en django
