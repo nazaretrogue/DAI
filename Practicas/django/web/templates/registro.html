@@ -1,0 +1,9 @@
+{% extends "principal.html" %}
+
+{% block content %}
+<form action="signup" method="post">
+    <label>New user <input type="text" name="new_user"></label>
+    <label>New password <input type="password" name="new_pss"></label>
+    <input type="submit" value="Sing up">
+</form>
+{% endblock %}

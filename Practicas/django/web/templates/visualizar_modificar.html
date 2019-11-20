@@ -1,0 +1,9 @@
+{% extends "principal.html" %}
+
+{% block content %}
+<form action="modify" method="post">
+    <label>New user <input type="text" name="user" value="{{login}}"></label>
+    <label>New password <input type="password" name="mod_pss"></label>
+    <input type="submit" value="Edit">
+</form>
+{% endblock %}
