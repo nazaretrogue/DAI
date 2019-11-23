@@ -3,11 +3,13 @@
     <head>
         <meta charset="utf-8">
         <title>Mint Eye</title>
-        <link rel="stylesheet" href="../static/style_sheet.css">
-        </head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'style_sheet.css' %}">
+    </head>
     <body>
         <header>
-            <img src="../static/images/Minteye.svg" alt="Logo" width="400" height="200">
+            {% load static %}
+            <img src="{% static "images/Minteye.svg" %}" alt="Logo" width="400" height="200">
             <div>
                 <h1>Welcome to Mint Eye</h1>
                 <h3>For eternal paradise</h3>
@@ -48,9 +50,7 @@
             <aside>
                 <h4>Most recent pages</h4>
                     <ul>
-                       {% for url in rank %}
-                       <li><a href={{url}}>{{url[1:].upper()}}</a></li>
-                       {% endfor %}
+
                     </ul>
                 <h4>All pages</h4>
                     <ul>

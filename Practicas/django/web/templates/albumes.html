@@ -1,0 +1,10 @@
+{% extends "principal.html" %}
+
+{% block content %}
+<h2>Añade un nuevo álbum</h2>
+<form class="form_pkm" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+{% endblock %}
