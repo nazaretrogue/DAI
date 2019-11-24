@@ -1,10 +1,12 @@
 {% extends "principal.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 <h2>Añade un nuevo grupo</h2>
-<form class="form_pkm" method="POST">
+<form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <input type="submit" value="Save">
 </form>
 {% endblock %}

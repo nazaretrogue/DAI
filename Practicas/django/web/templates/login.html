@@ -3,10 +3,9 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h2>Añade un nuevo artista</h2>
-<form method="POST">
+<form method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <input type="submit" value="Save">
+    <input type="submit" value="Login">
 </form>
 {% endblock %}

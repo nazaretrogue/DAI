@@ -1,0 +1,12 @@
+{% extends "principal.html" %}
+
+{% block content %}
+<h2>Añade un nuevo artista</h2>
+<form class="form_pkm" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="pk_artista" value="{{ form.pk }}">
+    <input type="hidden" name="modificado" value="modificado">
+    <input type="submit" value="Save">
+</form>
+{% endblock %}

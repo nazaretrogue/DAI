@@ -1,0 +1,32 @@
+{% extends "principal.html" %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>Artistic name</th>
+        <th>Last name</th>
+        <th>Date of birth</th>
+        <th>Instrument played</th>
+        <th>Modify button</th>
+        <th>Delete button</th>
+    </tr>
+    {% for artista in artistas %}
+    <tr>
+        <td>{{ artista.nombre }}</td>
+        <td>{{ artista.apellidos }}</td>
+        <td>{{ artista.fnac }}</td>
+        <td>{{ artista.instrumento }}</td>
+        <td><form action="{% url 'modificar_artista' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="pk_artista" value="{{ artista.pk }}">
+            <input type="submit" class="btn-table" value="Update"></form>
+        </td>
+        <td><form action="{% url 'borrar_artista' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="pk_artista" value="{{ artista.pk }}">
+            <input type="submit" class="btn-table" value="Delete"></form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

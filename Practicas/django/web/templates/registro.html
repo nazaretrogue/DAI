@@ -1,9 +1,11 @@
 {% extends "principal.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
-<form action="signup" method="post">
-    <label>New user <input type="text" name="new_user"></label>
-    <label>New password <input type="password" name="new_pss"></label>
-    <input type="submit" value="Sing up">
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Register">
 </form>
 {% endblock %}
