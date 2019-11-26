@@ -21,7 +21,8 @@
                 <h3>Welcome, {{ login }}</h3>
                 <a href="{% url 'deslogueo' %}">Logout</a>
             {% else %}
-                <a href="{% url 'logueo' %}">Login</a>
+                <p><a href="{% url 'logueo' %}">Login</a></p>
+                <p><a href="{% url 'registro' %}">Register</a></p>
             {% endif %}
         </header>
         <div id="cuerpo">

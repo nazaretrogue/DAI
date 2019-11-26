@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from .models import Musico
 from .forms import MusicoForm, GrupoMusicalForm, AlbumForm, RegistroForm, LoginForm
 
