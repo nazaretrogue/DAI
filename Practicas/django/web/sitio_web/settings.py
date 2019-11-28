@@ -134,7 +134,16 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.CryptPasswordHasher',
+)
+
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = 'login'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/práctica_05'
+LOGOUT_REDIRECT_URL = '/práctica_05'

@@ -13,6 +13,6 @@ urlpatterns = [
     url(r'^modificar_artista$', views.modificar_artista, name='modificar_artista'),
     url(r'^borrar_artista$', views.borrar_artista, name='borrar_artista'),
     url(r'^registro$', views.registro, name='registro'),
-    url(r'^login$', views.logueo, name='logueo'),
-    url(r'^logout$', views.deslogueo, name='deslogueo'),
+    # url(r'^login$', views.logueo, name='logueo'),
+    # url(r'^logout$', views.deslogueo, name='deslogueo'),
 ]

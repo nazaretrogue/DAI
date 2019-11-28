@@ -19,9 +19,20 @@ class AlbumForm(forms.ModelForm):
 
 class RegistroForm(forms.ModelForm):
     class Meta:
+        password = forms.CharField(widget = forms.PasswordInput)
         model = User
+        widgets = {'password': forms.PasswordInput()}
         fields = ('username', 'password', 'email', 'first_name', 'last_name',)
 
 class LoginForm(forms.Form):
-    usuario = forms.CharField(max_length=150)
-    password = forms.CharField(widget=forms.PasswordInput)
+        username = forms.CharField(max_length=150)
+        password = forms.CharField(widget = forms.PasswordInput)
+
+# class LoginForm(forms.ModelForm):
+#     class Meta:
+#         password = forms.CharField(widget = forms.PasswordInput)
+#         model = User
+#         widgets = {
+#             'password': forms.PasswordInput(),
+#         }
+#         fields = ('username', 'password',)

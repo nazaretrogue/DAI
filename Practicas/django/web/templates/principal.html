@@ -19,9 +19,9 @@
             </div>
             {% if login %}
                 <h3>Welcome, {{ login }}</h3>
-                <a href="{% url 'deslogueo' %}">Logout</a>
+                <p><a href="{% url 'logout' %}">Logout</a></p>
             {% else %}
-                <p><a href="{% url 'logueo' %}">Login</a></p>
+                <p><a href="{% url 'login' %}">Login</a></p>
                 <p><a href="{% url 'registro' %}">Register</a></p>
             {% endif %}
         </header>

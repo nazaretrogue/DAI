@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Musico
 from .forms import MusicoForm, GrupoMusicalForm, AlbumForm, RegistroForm, LoginForm
@@ -100,7 +101,10 @@ def registro(request):
         form = RegistroForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            usuario = form.save(commit=False)
+            usuario.set_password(form.cleaned_data['password'])
+            usuario.save()
+            #form.save()
             artistas = Musico.objects.all()
             return render(request, 'artistas_list.html', {'artistas': artistas})
 
@@ -108,25 +112,6 @@ def registro(request):
         form = RegistroForm()
 
     return render(request, 'registro.html', {'form': form})
-
-def logueo(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        usuario = request.POST.get('usuario')
-        password = request.POST.get('password')
-
-        user = authenticate(request, username=usuario, password=password)
-
-        if user is not None:
-            login(request, user)
-            user_activo = request.user.username
-            artistas = Musico.objects.all()
-            return render(request, 'artistas_list.html', {'login': user_activo, 'artistas': artistas})
-
-    else:
-        form = LoginForm()
-
-    return render(request, 'login.html', {'form': form})
 
 @login_required
 def deslogueo(request):
