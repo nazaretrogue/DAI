@@ -9,7 +9,7 @@
 /*-Base-*/
 
 body {
-	background-color:#ECEBEB;
+	background-color: azure;/*#ECEBEB;*/
 	font-family: 'Open Sans', sans-serif;
 }
 p, li{
@@ -21,7 +21,7 @@ a {
 
 /*-Header-*/
 header {
-	background-color: #E6F5EA;
+	background-color: azure;
 	border-bottom: 5px solid #85AD90;
 	padding: 2%;
 	font-size: 120%;
@@ -36,7 +36,7 @@ header {
 
 main{
 	width: 75%;
-	background-color: #E6F5EA;
+	background-color: azure;
 	border-left: 5px solid #85AD90;
 	border-bottom: 5px solid #85AD90;
 	padding: 2%;
@@ -50,14 +50,14 @@ main{
 
 aside{
 	width: 25%;
-	background-color: #E6F5EA; /*#99DEAB;*/
+	background-color: azure; /*#99DEAB;*/
 	border-right: 5px solid #85AD90;
 	border-bottom: 5px solid #85AD90;
 	padding: 1%;
 }
 
 footer{
-	background-color: #E6F5EA; /*#99DEAB;*/
+	background-color: azure; /*#99DEAB;*/
 	border-bottom: 5px solid #85AD90;
 	padding: 1%;
 	text-align: center;
