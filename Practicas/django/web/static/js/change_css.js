@@ -10,6 +10,7 @@ function modo_noche(){
         $('h4').css("color", "white");
         $('th').css("color", "white");
         $('td').css("color", "white");
+        $('label').css("color", "white");
     }
 
     else{
@@ -23,5 +24,6 @@ function modo_noche(){
         $('h4').css("color", "black");
         $('th').css("color", "black");
         $('td').css("color", "black");
+        $('label').css("color", "black");
     }
 }

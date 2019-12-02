@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^modificar_artista$', views.modificar_artista, name='modificar_artista'),
     url(r'^borrar_artista$', views.borrar_artista, name='borrar_artista'),
     url(r'^registro$', views.registro, name='registro'),
-    # url(r'^login$', views.logueo, name='logueo'),
-    # url(r'^logout$', views.deslogueo, name='deslogueo'),
+    url(r'^no_ajax_pag$', views.inicio_pag_no_ajax, name='inicio_pag_no_ajax'),
+    url(r'^anterior_pag$', views.anterior_pag, name='anterior_pag'),
+    url(r'^siguiente_pag$', views.siguiente_pag, name='siguiente_pag'),
 ]

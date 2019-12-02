@@ -4,12 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Musico
+from .models import Musico, GrupoMusical
 from .forms import MusicoForm, GrupoMusicalForm, AlbumForm, RegistroForm, LoginForm
 
 # Create your views here.
 
 user_activo = ""
+index_pag_no_ajax = 0
 
 def index(request):
     return HttpResponse('Hello world')
@@ -120,3 +121,27 @@ def deslogueo(request):
 
     artistas = Musico.objects.all()
     return render(request, 'artistas_list.html', {'artistas': artistas})
+
+def inicio_pag_no_ajax(request):
+    global index_pag_no_ajax
+    index_pag_no_ajax = 0
+    listado = GrupoMusical.objects.all()[index_pag_no_ajax:index_pag_no_ajax+5]
+    return render(request, 'paginador_no_ajax.html', {'listado': listado})
+
+def anterior_pag(request):
+    global index_pag_no_ajax
+
+    if index_pag_no_ajax <= 5:
+        index_pag_no_ajax = 0
+
+    else:
+        index_pag_no_ajax -= 5
+
+    listado = GrupoMusical.objects.all()[index_pag_no_ajax:index_pag_no_ajax+5]
+    return render(request, 'paginador_no_ajax.html', {'listado': listado})
+
+def siguiente_pag(request):
+    global index_pag_no_ajax
+    index_pag_no_ajax += 5
+    listado = GrupoMusical.objects.all()[index_pag_no_ajax:index_pag_no_ajax+5]
+    return render(request, 'paginador_no_ajax.html', {'listado': listado})

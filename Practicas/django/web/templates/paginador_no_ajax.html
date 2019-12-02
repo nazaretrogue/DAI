@@ -1,0 +1,21 @@
+{% extends "principal.html" %}
+
+{% block content %}
+<h2>Paginación sin AJAX</h2>
+<table>
+    <tr>
+        <th>Group name</th>
+        <th>Group albumes</th>
+        <th>Group components</th>
+    </tr>
+    {% for grupo in listado %}
+    <tr>
+        <td>{{ grupo.nombre }}</td>
+        <td>{{ grupo.estilo }}</td>
+        <td><a href="{% url 'artistas_list' %}">Miembros de {{ grupo.nombre }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'anterior_pag' %}">Anterior</a>
+<a href="{% url 'siguiente_pag' %}">Siguiente</a>
+{% endblock %}
