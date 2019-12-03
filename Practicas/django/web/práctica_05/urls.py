@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^no_ajax_pag$', views.inicio_pag_no_ajax, name='inicio_pag_no_ajax'),
     url(r'^anterior_pag$', views.anterior_pag, name='anterior_pag'),
     url(r'^siguiente_pag$', views.siguiente_pag, name='siguiente_pag'),
+    url(r'^ajax_pag$', views.pag_ajax, name='pag_ajax',)
 ]

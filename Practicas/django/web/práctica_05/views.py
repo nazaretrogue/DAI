@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from .models import Musico, GrupoMusical
 from .forms import MusicoForm, GrupoMusicalForm, AlbumForm, RegistroForm, LoginForm
 
@@ -145,3 +146,12 @@ def siguiente_pag(request):
     index_pag_no_ajax += 5
     listado = GrupoMusical.objects.all()[index_pag_no_ajax:index_pag_no_ajax+5]
     return render(request, 'paginador_no_ajax.html', {'listado': listado})
+
+def pag_ajax(request):
+    listado_total = GrupoMusical.objects.all()
+    paginator = Paginator(listado_total, 5)
+
+    page = request.GET.get('page')
+    listado = paginator.get_page(page)
+
+    return render(request, 'paginador_ajax.html', {'listado': listado})
