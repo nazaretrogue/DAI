@@ -1,0 +1,68 @@
+{% extends "principal.html" %}
+
+{% block content %}
+<h2>Charts: número de álbumes publicados por cada artista/grupo musical</h2>
+<script src="../static/js/node_modules/highcharts/highcharts.js"></script>
+<script src="../static/js/node_modules/highcharts/highcharts-3d.js"></script>
+<script src="../static/js/node_modules/highcharts/modules/exporting.js"></script>
+<div id="container" style="width:50%; height:400px;"></div>
+    <script>
+        var Highcharts = require('../static/js/node_modules/highcharts');
+
+        require('../static/js/node_modules/highcharts/modules/exporting')(Highcharts);
+
+        function chart_display() {
+            var listado_artistas_utf8 = JSON.parse("{{ artistas|escapejs }}");
+            var listado_num_albumes = JSON.parse("{{ num_albumes_artista|escapejs }}");
+
+            datos = []
+
+            for(let i=0; i<listado_artistas_utf8.length; i++){
+                if(i==listado_artistas_utf8.length-1){
+                    datos[i] = '{"name": "'+listado_artistas_utf8[i]+'","data": ['+listado_num_albumes[listado_artistas_utf8[i]]+']}';
+                }
+
+                else {
+                    datos[i] = '{"name": "'+listado_artistas_utf8[i]+'","data": ['+listado_num_albumes[listado_artistas_utf8[i]]+']}';
+                }
+            }
+
+            parsed_datos = []
+
+            for(let i=0; i<datos.length; i++){
+                parsed_datos[i] = JSON.parse(datos[i]);
+            }
+
+            //parsed_datos = JSON.parse(datos);
+
+            var myChart = Highcharts.chart('container', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Number of albums'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Artist'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Albums published'
+                    }
+                },
+                series: (function() {
+                            var series = []
+
+                            for(let i=0; i<parsed_datos.length; i++) {
+                                series.push(parsed_datos[i]);
+                            }
+
+                            return series;
+                        }())
+            });
+        };
+    </script>
+    <button onclick="chart_display()">Display chart</button>
+{% endblock %}
